@@ -20,77 +20,40 @@ const infoPanel =
     document.getElementById("info-panel");
 
 
-let markerVisible = false;
-
-
 /*
-    Automatically scale and center
-    the loaded GLB model.
+    Model loaded successfully
 */
 
 artifactElement.addEventListener(
     "model-loaded",
-    (event) => {
+    () => {
 
-        const model =
-            event.detail.model;
-
-
-        const box =
-            new THREE.Box3()
-                .setFromObject(model);
-
-
-        const size =
-            box.getSize(
-                new THREE.Vector3()
-            );
-
-
-        const center =
-            box.getCenter(
-                new THREE.Vector3()
-            );
-
-
-        const largestDimension =
-            Math.max(
-                size.x,
-                size.y,
-                size.z
-            );
-
-
-        if (
-            largestDimension > 0
-        ) {
-
-            const targetSize =
-                1.0;
-
-
-            const scale =
-                targetSize /
-                largestDimension;
-
-
-            model.scale.multiplyScalar(
-                scale
-            );
-
-        }
-
-
-        /*
-            Center the model around
-            its origin.
-        */
-
-        model.position.sub(center);
-
+        console.log(
+            "3D model loaded successfully"
+        );
 
         statusElement.textContent =
-            "Model loaded. Scan the Moonstone marker.";
+            "Model loaded. Point your camera at the Moonstone marker.";
+
+    }
+);
+
+
+/*
+    Model loading error
+*/
+
+artifactElement.addEventListener(
+    "model-error",
+    (event) => {
+
+        console.error(
+            "Model loading error:",
+            event
+        );
+
+        statusElement.textContent =
+            "The 3D model could not be loaded.";
 
     }
 );
@@ -104,10 +67,12 @@ targetElement.addEventListener(
     "targetFound",
     () => {
 
-        markerVisible = true;
+        console.log(
+            "Marker detected"
+        );
 
         statusElement.textContent =
-            "Marker detected! Explore the 3D artifact.";
+            "Marker detected! The artifact should now appear.";
 
     }
 );
@@ -121,7 +86,9 @@ targetElement.addEventListener(
     "targetLost",
     () => {
 
-        markerVisible = false;
+        console.log(
+            "Marker lost"
+        );
 
         statusElement.textContent =
             "Marker lost. Point your camera at the Moonstone marker.";
@@ -131,7 +98,7 @@ targetElement.addEventListener(
 
 
 /*
-    Information panel
+    Open information panel
 */
 
 infoButton.addEventListener(
@@ -146,6 +113,10 @@ infoButton.addEventListener(
 );
 
 
+/*
+    Close information panel
+*/
+
 closeInfoButton.addEventListener(
     "click",
     () => {
@@ -153,21 +124,6 @@ closeInfoButton.addEventListener(
         infoPanel.classList.remove(
             "visible"
         );
-
-    }
-);
-
-
-/*
-    Basic load error handling
-*/
-
-artifactElement.addEventListener(
-    "model-error",
-    () => {
-
-        statusElement.textContent =
-            "The 3D model could not be loaded. Please check the model file.";
 
     }
 );
