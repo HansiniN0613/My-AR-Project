@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Marker AR</title>
+
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+</head>
+
+<body>
+
+<a-scene
+    mindar-image="
+        imageTargetSrc: assets/marker.mind;
+        autoStart: true;
+        uiScanning: true;
+        uiLoading: true;
+    "
+    color-space="sRGB"
+    renderer="colorManagement: true, physicallyCorrectLights"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
+
+    <a-assets>
+
+        <a-asset-item
+            id="statue"
+            src="models/head_of_buddha_statue.glb">
+        </a-asset-item>
+
+    </a-assets>
+
+
+    <a-camera
+        position="0 0 0"
+        look-controls="enabled: false">
+    </a-camera>
+
+
+    <a-entity mindar-image-target="targetIndex: 0">
+
+        <a-gltf-model
+            src="#statue"
+            position="0 0 0"
+            scale="0.5 0.5 0.5"
+            rotation="0 0 0"
+            animation="
+                property: rotation;
+                to: 0 360 0;
+                loop: true;
+                dur: 8000;
+                easing: linear;
+            ">
+        </a-gltf-model>
+
+    </a-entity>
+
+</a-scene>
+
+</body>
+
+</html>
