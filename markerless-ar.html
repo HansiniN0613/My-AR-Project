@@ -5,57 +5,401 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    <title>Markerless AR | Heritage AR Guide</title>
+    <meta
+        name="description"
+        content="Markerless WebXR experience for placing and manipulating cultural heritage artifacts."
+    >
+
+    <title>
+        Markerless AR | Heritage AR Guide
+    </title>
+
+
     <style>
-        :root { --ink: #fff8ec; --panel: rgba(35, 25, 17, 0.84); --accent: #d99a4e; }
-        * { box-sizing: border-box; }
-        html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #17120e; font-family: Georgia, serif; }
-        canvas { display: block; }
-        #hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
-        #info, #controls { pointer-events: auto; color: var(--ink); background: var(--panel); border: 1px solid rgba(255, 248, 236, 0.22); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25); backdrop-filter: blur(8px); }
-        #info { position: absolute; top: max(16px, env(safe-area-inset-top)); left: 16px; right: 16px; padding: 14px 16px; border-radius: 8px; }
-        #status { margin: 0; font-size: 16px; line-height: 1.35; }
-        #controls { position: absolute; left: 16px; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); display: grid; gap: 10px; padding: 12px; border-radius: 8px; }
-        .control-row { display: flex; gap: 8px; }
-        button, a { min-height: 44px; border: 1px solid rgba(255, 248, 236, 0.26); border-radius: 6px; padding: 10px 12px; color: var(--ink); background: rgba(255, 248, 236, 0.12); font: 600 14px Georgia, serif; text-decoration: none; cursor: pointer; }
-        button { flex: 1; }
-        button.active, #start-ar { color: #21160d; background: var(--accent); border-color: var(--accent); }
-        button:disabled { opacity: 0.45; cursor: default; }
-        #start-ar, #back-link { width: 100%; display: block; text-align: center; }
-        @media (min-width: 700px) { #info, #controls { left: 24px; right: auto; width: 360px; } }
+
+        :root {
+
+            --text: #fff8ec;
+
+            --panel:
+                rgba(
+                    35,
+                    25,
+                    17,
+                    0.88
+                );
+
+            --accent: #d99a4e;
+
+        }
+
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+            height: 100%;
+
+            margin: 0;
+
+            overflow: hidden;
+
+            background: #17120e;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+        }
+
+
+        canvas {
+
+            display: block;
+
+        }
+
+
+        #hud {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 10;
+
+            pointer-events: none;
+
+        }
+
+
+        #info,
+        #controls {
+
+            color: var(--text);
+
+            background: var(--panel);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    248,
+                    236,
+                    0.22
+                );
+
+            backdrop-filter:
+                blur(8px);
+
+            pointer-events: auto;
+
+        }
+
+
+        #info {
+
+            position: absolute;
+
+            top:
+                max(
+                    15px,
+                    env(safe-area-inset-top)
+                );
+
+            left: 15px;
+
+            right: 15px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+        }
+
+
+        #status {
+
+            margin: 0;
+
+            line-height: 1.5;
+
+        }
+
+
+        #controls {
+
+            position: absolute;
+
+            left: 15px;
+
+            right: 15px;
+
+            bottom:
+                max(
+                    15px,
+                    env(safe-area-inset-bottom)
+                );
+
+            display: grid;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+        }
+
+
+        .control-row {
+
+            display: flex;
+
+            gap: 8px;
+
+        }
+
+
+        button,
+        a {
+
+            flex: 1;
+
+            min-height: 46px;
+
+            padding: 10px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    248,
+                    236,
+                    0.3
+                );
+
+            border-radius: 8px;
+
+            color: var(--text);
+
+            background:
+                rgba(
+                    255,
+                    248,
+                    236,
+                    0.12
+                );
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            text-align: center;
+
+        }
+
+
+        button.active,
+        #start-ar {
+
+            background:
+                var(--accent);
+
+            color:
+                #21160d;
+
+            font-weight: bold;
+
+        }
+
+
+        button:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+        }
+
+
+        #back-link {
+
+            width: 100%;
+
+        }
+
+
+        @media
+        (min-width: 700px) {
+
+            #info,
+            #controls {
+
+                left: 24px;
+
+                right: auto;
+
+                width: 380px;
+
+            }
+
+        }
+
     </style>
 
 </head>
 
+
 <body>
 
+
 <div id="hud">
-    <section id="info" aria-live="polite">
-        <p id="status">Tap Start AR, then move your phone slowly to find a flat surface.</p>
+
+
+    <section
+        id="info"
+        aria-live="polite"
+    >
+
+        <p id="status">
+
+            Tap Start AR, then move your phone slowly
+            to find a flat surface.
+
+        </p>
+
     </section>
-    <section id="controls" aria-label="AR controls">
+
+
+    <section
+        id="controls"
+        aria-label="AR controls"
+    >
+
+
         <div class="control-row">
-            <button id="buddha-button" type="button" class="active">Buddha</button>
-            <button id="casket-button" type="button">Casket</button>
+
+            <button
+                id="buddha-button"
+                type="button"
+                class="active"
+            >
+                Buddha
+            </button>
+
+
+            <button
+                id="casket-button"
+                type="button"
+            >
+                Casket
+            </button>
+
         </div>
+
+
         <div class="control-row">
-            <button id="rotate-left" type="button">Rotate left</button>
-            <button id="rotate-right" type="button">Rotate right</button>
+
+            <button
+                id="rotate-left"
+                type="button"
+            >
+                ↶ Rotate
+            </button>
+
+
+            <button
+                id="rotate-right"
+                type="button"
+            >
+                Rotate ↷
+            </button>
+
         </div>
+
+
         <div class="control-row">
-            <button id="scale-down" type="button">Scale -</button>
-            <button id="scale-up" type="button">Scale +</button>
-            <button id="remove-object" type="button">Remove</button>
+
+            <button
+                id="scale-down"
+                type="button"
+            >
+                − Scale
+            </button>
+
+
+            <button
+                id="scale-up"
+                type="button"
+            >
+                + Scale
+            </button>
+
+
+            <button
+                id="remove-object"
+                type="button"
+            >
+                Remove
+            </button>
+
         </div>
-        <button id="start-ar" type="button">Start AR</button>
-        <a id="back-link" href="index.html">Back to home</a>
+
+
+        <button
+            id="start-ar"
+            type="button"
+        >
+            Start AR
+        </button>
+
+
+        <a
+            id="back-link"
+            href="index.html"
+        >
+            ← Back to Home
+        </a>
+
+
     </section>
+
+
 </div>
 
-<script type="module" src="js/markerless-ar.js"></script>
+
+<!-- Three.js Import Map -->
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+
+<script
+    type="module"
+    src="js/markerless-ar.js"
+>
+</script>
+
 
 </body>
 

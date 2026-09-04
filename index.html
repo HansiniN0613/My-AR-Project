@@ -5,57 +5,137 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="An interactive browser-based augmented reality experience for exploring cultural heritage artifacts."
+    >
 
     <title>Heritage AR Guide</title>
 
-    <link rel="stylesheet"
-          href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-    <div class="landing">
+    <main class="landing">
 
-        <h1>🏺 Heritage AR Guide</h1>
+        <section class="hero">
 
-        <p class="subtitle">
-            Explore cultural heritage through
-            Augmented Reality
-        </p>
-
-        <div class="menu">
-
-            <button id="markerARButton">
-                📷 Marker AR
-            </button>
-
-            <button id="markerlessARButton">
-                🌐 Markerless AR
-            </button>
-
-        </div>
-
-        <div class="info">
-
-            <h2>How to use</h2>
-
-            <p>
-                Use Marker AR to scan the provided
-                heritage marker.
+            <p class="eyebrow">
+                CULTURAL HERITAGE × AUGMENTED REALITY
             </p>
 
-            <p>
-                Use Markerless AR to place a
-                3D artifact on a real surface.
+            <h1>🏺 Heritage AR Guide</h1>
+
+            <p class="subtitle">
+                Explore cultural heritage artifacts through
+                interactive browser-based Augmented Reality.
             </p>
 
-        </div>
+            <div class="menu">
 
-    </div>
+                <button
+                    id="markerARButton"
+                    type="button"
+                >
+                    📷 Explore Marker AR
+                </button>
+
+                <button
+                    id="markerlessARButton"
+                    type="button"
+                    class="secondary-button"
+                >
+                    🌐 Explore Markerless AR
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <section class="info">
+
+            <h2>How the experience works</h2>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+
+                    <h3>📷 Marker-Based AR</h3>
+
+                    <p>
+                        Point your camera at the provided
+                        Moonstone image to reveal a 3D
+                        cultural heritage artifact.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <h3>🌐 Markerless AR</h3>
+
+                    <p>
+                        Detect a real-world surface and
+                        place, rotate, scale, change, or
+                        remove a virtual artifact.
+                    </p>
+
+                </article>
+
+            </div>
+
+
+            <div class="instructions">
+
+                <h3>Before you start</h3>
+
+                <ol>
+
+                    <li>
+                        Use a compatible mobile browser.
+                    </li>
+
+                    <li>
+                        Allow camera access when requested.
+                    </li>
+
+                    <li>
+                        For Marker AR, scan the Moonstone image.
+                    </li>
+
+                    <li>
+                        For Markerless AR, move the phone slowly
+                        until a suitable surface is detected.
+                    </li>
+
+                </ol>
+
+            </div>
+
+        </section>
+
+
+        <section class="technology">
+
+            <h2>Technologies Used</h2>
+
+            <p>
+                Three.js · WebXR · A-Frame · MindAR · GLTF/GLB
+            </p>
+
+        </section>
+
+    </main>
+
 
     <script src="js/main.js"></script>
 

@@ -5,66 +5,400 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    <title>Marker AR</title>
+    <meta
+        name="description"
+        content="Marker-based augmented reality experience for exploring a cultural heritage artifact."
+    >
 
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <title>Marker AR | Heritage AR Guide</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+    <script
+        src="https://aframe.io/releases/1.5.0/aframe.min.js">
+    </script>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js">
+    </script>
+
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            overflow: hidden;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+        }
+
+
+        #ui {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 10;
+
+            pointer-events: none;
+
+        }
+
+
+        .top-panel {
+
+            position: absolute;
+
+            top:
+                max(
+                    15px,
+                    env(safe-area-inset-top)
+                );
+
+            left: 15px;
+
+            right: 15px;
+
+            padding: 15px;
+
+            color: white;
+
+            background:
+                rgba(
+                    25,
+                    18,
+                    12,
+                    0.82
+                );
+
+            border-radius: 12px;
+
+            pointer-events: auto;
+
+        }
+
+
+        #status {
+
+            margin: 0;
+
+            line-height: 1.5;
+
+        }
+
+
+        .bottom-panel {
+
+            position: absolute;
+
+            left: 15px;
+
+            right: 15px;
+
+            bottom:
+                max(
+                    15px,
+                    env(safe-area-inset-bottom)
+                );
+
+            display: grid;
+
+            gap: 10px;
+
+            pointer-events: auto;
+
+        }
+
+
+        button,
+        a {
+
+            min-height: 48px;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                rgba(
+                    40,
+                    28,
+                    18,
+                    0.9
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+        }
+
+
+        #info-panel {
+
+            display: none;
+
+            position: absolute;
+
+            left: 15px;
+
+            right: 15px;
+
+            bottom: 145px;
+
+            padding: 18px;
+
+            color: white;
+
+            background:
+                rgba(
+                    25,
+                    18,
+                    12,
+                    0.92
+                );
+
+            border-radius: 12px;
+
+            pointer-events: auto;
+
+        }
+
+
+        #info-panel.visible {
+
+            display: block;
+
+        }
+
+
+        #info-panel h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        #info-panel p {
+
+            line-height: 1.5;
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
+
+<div id="ui">
+
+    <div class="top-panel">
+
+        <p id="status">
+            Point your camera at the Moonstone marker.
+        </p>
+
+    </div>
+
+
+    <div
+        id="info-panel"
+        aria-live="polite"
+    >
+
+        <h2>Artifact Information</h2>
+
+        <p>
+            <strong>Artifact:</strong>
+            Head of Buddha Statue
+        </p>
+
+        <p>
+            This interactive 3D model demonstrates how
+            cultural heritage artifacts can be visualized
+            and explored through browser-based
+            Augmented Reality.
+        </p>
+
+        <button
+            id="close-info"
+            type="button"
+        >
+            Close
+        </button>
+
+    </div>
+
+
+    <div class="bottom-panel">
+
+        <button
+            id="info-button"
+            type="button"
+        >
+            ℹ View Artifact Information
+        </button>
+
+
+        <a href="index.html">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+
 <a-scene
+
     mindar-image="
         imageTargetSrc: assets/marker.mind;
         autoStart: true;
         uiScanning: true;
         uiLoading: true;
     "
+
     color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
+
+    renderer="
+        colorManagement: true;
+        physicallyCorrectLights: true;
+    "
+
     vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
+
+    device-orientation-permission-ui="enabled: false"
+
+
+    embedded
+
+>
+
 
     <a-assets>
 
         <a-asset-item
+
             id="statue"
-            src="models/head_of_buddha_statue.glb">
+
+            src="models/head_of_buddha_statue.glb"
+
+        >
         </a-asset-item>
 
     </a-assets>
 
 
+    <!-- Lighting -->
+
+    <a-entity
+
+        light="
+            type: ambient;
+            intensity: 1.2;
+        "
+
+    >
+    </a-entity>
+
+
+    <a-entity
+
+        light="
+            type: directional;
+            intensity: 1.5;
+        "
+
+        position="1 2 2"
+
+    >
+    </a-entity>
+
+
+    <!-- Camera -->
+
     <a-camera
+
         position="0 0 0"
-        look-controls="enabled: false">
+
+        look-controls="enabled: false"
+
+    >
     </a-camera>
 
 
-    <a-entity mindar-image-target="targetIndex: 0">
+    <!-- AR Target -->
 
-        <a-gltf-model
-            src="#statue"
+    <a-entity
+
+        id="target"
+
+        mindar-image-target="
+            targetIndex: 0
+        "
+
+    >
+
+
+        <a-entity
+
+            id="artifact"
+
+            gltf-model="#statue"
+
             position="0 0 0"
-            scale="0.5 0.5 0.5"
+
             rotation="0 0 0"
+
             animation="
                 property: rotation;
                 to: 0 360 0;
                 loop: true;
-                dur: 8000;
+                dur: 10000;
                 easing: linear;
-            ">
-        </a-gltf-model>
+            "
+
+        >
+        </a-entity>
+
 
     </a-entity>
 
+
 </a-scene>
+
+
+<script src="js/marker-ar.js"></script>
+
 
 </body>
 

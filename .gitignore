@@ -1,0 +1,23 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Python cache
+__pycache__/

@@ -1,16 +1,29 @@
-document
-    .getElementById("markerARButton")
-    .addEventListener("click", function () {
+"use strict";
 
-        window.location.href = "marker-ar.html";
+const markerButton =
+    document.getElementById("markerARButton");
 
-    });
+const markerlessButton =
+    document.getElementById("markerlessARButton");
 
 
-document
-    .getElementById("markerlessARButton")
-    .addEventListener("click", function () {
+markerButton.addEventListener(
+    "click",
+    () => {
 
-        window.location.href = "markerless-ar.html";
+        window.location.href =
+            "marker-ar.html";
 
-    });
+    }
+);
+
+
+markerlessButton.addEventListener(
+    "click",
+    () => {
+
+        window.location.href =
+            "markerless-ar.html";
+
+    }
+);
