@@ -608,27 +608,20 @@ async function placeArtifact() {
         }
 
 
-        const surfacePosition =
-            new THREE.Vector3();
+        /*
+            Position only. Copying the full hit-test
+            rotation here anchors small real-world
+            surface noise (pitch/roll) at the model's
+            base pivot, which can swing a small-scale
+            model edge-on to the camera or past its
+            near clip plane -- "placed" but invisible.
+            Keeping the model upright and only moving
+            it to the detected point is the standard,
+            reliable WebXR hit-test pattern.
+        */
 
-        const surfaceRotation =
-            new THREE.Quaternion();
-
-        const surfaceScale =
-            new THREE.Vector3();
-
-        placementMatrix.decompose(
-            surfacePosition,
-            surfaceRotation,
-            surfaceScale
-        );
-
-        model.position.copy(
-            surfacePosition
-        );
-
-        model.quaternion.copy(
-            surfaceRotation
+        model.position.setFromMatrixPosition(
+            placementMatrix
         );
 
 
@@ -642,7 +635,12 @@ async function placeArtifact() {
 
 
         setStatus(
-            "Artifact placed. Use the controls to rotate, scale, change, or remove it."
+            `Artifact placed at ` +
+            `(${placedModel.position.x.toFixed(2)}, ` +
+            `${placedModel.position.y.toFixed(2)}, ` +
+            `${placedModel.position.z.toFixed(2)}), ` +
+            `scale ${placedModel.scale.x.toFixed(3)}. ` +
+            `Use the controls to rotate, scale, change, or remove it.`
         );
 
     }
