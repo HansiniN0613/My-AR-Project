@@ -16,6 +16,9 @@ const statusElement =
 const startButton =
     document.getElementById("start-ar");
 
+const markerFallback =
+    document.getElementById("marker-fallback");
+
 
 const artifactButtons = {
 
@@ -251,6 +254,23 @@ function setStatus(message) {
 
     statusElement.textContent =
         message;
+
+}
+
+
+function showMarkerFallback(show) {
+
+    if (
+        !markerFallback
+    ) {
+
+        return;
+
+    }
+
+
+    markerFallback.hidden =
+        !show;
 
 }
 
@@ -856,6 +876,8 @@ async function startAR() {
     startButton.disabled =
         true;
 
+    showMarkerFallback(false);
+
     setStatus(
         "Checking AR support..."
     );
@@ -912,12 +934,14 @@ async function startAR() {
         ) {
 
             setStatus(
-                "This browser or device does not support immersive AR. Use HTTPS with Chrome on a compatible Android phone."
+                "Markerless AR needs Google Play Services for AR. Use Marker AR instead, or install the Android AR service."
             );
 
 
             startButton.disabled =
                 false;
+
+            showMarkerFallback(true);
 
             return;
 
@@ -1047,12 +1071,19 @@ async function startAR() {
             errorName === "SecurityError"
                 ? "Camera permission was denied. Allow camera access for Chrome and reload the page."
                 : errorName === "NotSupportedError"
-                    ? "WebXR rejected the AR session. Confirm Chrome, ARCore, camera permission, and HTTPS on a compatible Android phone."
-                    : `Unable to start AR: ${errorName}. Check camera permission and AR support.`;
+                    ? "Markerless AR needs Google Play Services for AR. Use Marker AR instead, or install the Android AR service."
+                    : `Unable to start AR: ${errorName}${
+                        error.message ? ` (${error.message})` : ""
+                    }. Check camera permission and AR support.`;
 
 
         setStatus(
             message
+        );
+
+
+        showMarkerFallback(
+            errorName === "NotSupportedError"
         );
 
 

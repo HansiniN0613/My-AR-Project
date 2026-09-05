@@ -173,6 +173,26 @@
         }
 
 
+        #marker-fallback {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        #marker-fallback a {
+
+            color: var(--accent);
+
+            text-decoration: underline;
+
+        }
+
+
         button,
         a {
 
@@ -369,6 +389,18 @@
         </button>
 
 
+        <p
+            id="marker-fallback"
+            hidden
+        >
+            Markerless AR isn't available on this device.
+            Try
+            <a href="marker-ar.html">Marker AR</a>
+            instead, or install/update
+            "Google Play Services for AR" from the Play Store.
+        </p>
+
+
         <a
             id="back-link"
             href="index.html"
@@ -396,7 +428,7 @@
 
 <script
     type="module"
-    src="js/markerless-ar.js?v=6"
+    src="js/markerless-ar.js?v=3"
 >
 </script>
 
