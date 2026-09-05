@@ -606,7 +606,7 @@ async function placeArtifact() {
 
 
         model.position.setFromMatrixPosition(
-            reticle.matrix
+            reticle.matrixWorld
         );
 
 
@@ -1042,6 +1042,15 @@ async function startAR() {
                     true
 
             }
+
+        );
+
+
+        session.addEventListener(
+
+            "select",
+
+            placeArtifact
 
         );
 
