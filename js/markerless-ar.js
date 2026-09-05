@@ -329,23 +329,35 @@ function prepareModel(model) {
     }
 
 
+    model.updateMatrixWorld(
+        true
+    );
+
+    const scaledBounds =
+        new THREE.Box3()
+            .setFromObject(
+                model
+            );
+
+    const scaledCenter =
+        scaledBounds.getCenter(
+            new THREE.Vector3()
+        );
+
+
     /*
-        Center model horizontally.
+        Center the scaled model on the detected surface.
     */
 
     model.position.x -=
-        center.x;
+        scaledCenter.x;
 
     model.position.z -=
-        center.z;
+        scaledCenter.z;
 
-
-    /*
-        Place model on surface.
-    */
 
     model.position.y -=
-        box.min.y;
+        scaledBounds.min.y;
 
 
     return model;
