@@ -621,20 +621,13 @@ async function placeArtifact() {
         }
 
 
-        /*
-            Position only. Copying the full hit-test
-            rotation here anchors small real-world
-            surface noise (pitch/roll) at the model's
-            base pivot, which can swing a small-scale
-            model edge-on to the camera or past its
-            near clip plane -- "placed" but invisible.
-            Keeping the model upright and only moving
-            it to the detected point is the standard,
-            reliable WebXR hit-test pattern.
-        */
+        const hitPosition =
+            new THREE.Vector3().setFromMatrixPosition(
+                placementMatrix
+            );
 
-        model.position.setFromMatrixPosition(
-            placementMatrix
+        model.position.add(
+            hitPosition
         );
 
 
@@ -1004,63 +997,27 @@ async function startAR() {
 
         const sessionOptions = {
 
-            requiredFeatures: [],
+            requiredFeatures: [
+                "hit-test"
+            ],
 
             optionalFeatures: [
-
-                "hit-test",
-
                 "dom-overlay",
-
                 "local-floor"
-
             ],
 
             domOverlay: {
-
-                root:
-                    hud
-
+                root: hud
             }
 
         };
 
 
-        let session;
-
-
-        try {
-
-            session =
-                await navigator.xr
-                    .requestSession(
-                        "immersive-ar",
-                        sessionOptions
-                    );
-
-        }
-
-        catch (error) {
-
-            if (
-                error.name !== "NotSupportedError"
-            ) {
-
-                throw error;
-
-            }
-
-
-            session =
-                await navigator.xr
-                    .requestSession(
-                        "immersive-ar",
-                        {
-                            requiredFeatures: []
-                        }
-                    );
-
-        }
+        const session =
+            await navigator.xr.requestSession(
+                "immersive-ar",
+                sessionOptions
+            );
 
 
         session.addEventListener(
