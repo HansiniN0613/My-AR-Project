@@ -156,6 +156,19 @@ document.body.appendChild(
 );
 
 
+renderer.domElement.id =
+    "ar-canvas";
+
+renderer.domElement.style.position =
+    "fixed";
+
+renderer.domElement.style.inset =
+    "0";
+
+renderer.domElement.style.zIndex =
+    "1";
+
+
 /* =========================================================
    LIGHTING
 ========================================================= */
