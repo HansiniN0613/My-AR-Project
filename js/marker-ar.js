@@ -37,6 +37,15 @@ const buddhaButton = document.querySelector("#buddha-button");
 
 const casketButton = document.querySelector("#casket-button");
 
+const anuradhapuraButton =
+  document.querySelector("#anuradhapura-button");
+
+const maskButton =
+  document.querySelector("#mask-button");
+
+const platformButton =
+  document.querySelector("#platform-button");
+
 const rotateLeftButton = document.querySelector("#rotate-left");
 
 const rotateRightButton = document.querySelector("#rotate-right");
@@ -114,6 +123,20 @@ Current scale.
 
 let currentScale = defaultTransform.scale;
 
+const artifactScales = {
+
+  buddha: 0.5,
+
+  casket: 0.08,
+
+  anuradhapura: 0.08,
+
+  mask: 0.2,
+
+  platform: 0.08
+
+};
+
 
 /* =======================================================
    ARTIFACT INFORMATION
@@ -138,6 +161,33 @@ const artifactInformation = {
     description:
       "This artifact represents a traditional relic casket associated with Sri Lankan heritage. " +
       "In this AR experience, the casket can be selected, rotated, resized and removed."
+
+  },
+
+  anuradhapura: {
+
+    title: "Anuradhapura Heritage Site",
+
+    description:
+      "This 3D model represents a cultural heritage site from Anuradhapura."
+
+  },
+
+  mask: {
+
+    title: "Sri Lankan Traditional Mask",
+
+    description:
+      "This 3D model represents a traditional Sri Lankan cultural mask."
+
+  },
+
+  platform: {
+
+    title: "Stone Platform with Buddha's Feet",
+
+    description:
+      "This 3D model represents a stone platform featuring the footprints of the Buddha."
 
   }
 
@@ -201,6 +251,27 @@ function centerLoadedModel() {
 
   }
 
+  const size =
+    bounds.getSize(
+      new THREE.Vector3()
+    );
+
+  const largestDimension =
+    Math.max(
+      size.x,
+      size.y,
+      size.z
+    );
+
+  const modelScale =
+    largestDimension > 0
+      ? 1 / largestDimension
+      : 1;
+
+  model.scale.setScalar(
+    modelScale
+  );
+
   const center =
     bounds.getCenter(
       new THREE.Vector3()
@@ -208,13 +279,13 @@ function centerLoadedModel() {
 
 
   model.position.x -=
-    center.x;
+    center.x * modelScale;
 
   model.position.y -=
-    bounds.min.y;
+    bounds.min.y * modelScale;
 
   model.position.z -=
-    center.z;
+    center.z * modelScale;
 
 }
 
@@ -233,6 +304,12 @@ function updateArtifactButtons() {
 
   casketButton.classList.remove("active");
 
+  anuradhapuraButton.classList.remove("active");
+
+  maskButton.classList.remove("active");
+
+  platformButton.classList.remove("active");
+
 
   /*
   Add active class to selected artifact.
@@ -244,9 +321,27 @@ function updateArtifactButtons() {
 
   }
 
-  else {
+  else if (selectedArtifact === "casket") {
 
     casketButton.classList.add("active");
+
+  }
+
+  else if (selectedArtifact === "anuradhapura") {
+
+    anuradhapuraButton.classList.add("active");
+
+  }
+
+  else if (selectedArtifact === "mask") {
+
+    maskButton.classList.add("active");
+
+  }
+
+  else {
+
+    platformButton.classList.add("active");
 
   }
 
@@ -333,6 +428,78 @@ function selectCasket() {
   artifact.setAttribute("visible", true);
 
   setStatus("Casket artifact selected");
+
+}
+
+
+function selectAnuradhapura() {
+
+  selectedArtifact = "anuradhapura";
+
+  artifact.setAttribute(
+    "gltf-model",
+    "models/anuradhapura_-_weltkulturerbe.glb"
+  );
+
+  resetArtifact(false);
+
+  updateArtifactButtons();
+
+  updateInformation();
+
+  artifactVisible = true;
+
+  artifact.setAttribute("visible", true);
+
+  setStatus("Anuradhapura artifact selected");
+
+}
+
+
+function selectMask() {
+
+  selectedArtifact = "mask";
+
+  artifact.setAttribute(
+    "gltf-model",
+    "models/sri_lankan_mask.glb"
+  );
+
+  resetArtifact(false);
+
+  updateArtifactButtons();
+
+  updateInformation();
+
+  artifactVisible = true;
+
+  artifact.setAttribute("visible", true);
+
+  setStatus("Sri Lankan mask selected");
+
+}
+
+
+function selectPlatform() {
+
+  selectedArtifact = "platform";
+
+  artifact.setAttribute(
+    "gltf-model",
+    "models/stone_platform_with_buddhas_feet.glb"
+  );
+
+  resetArtifact(false);
+
+  updateArtifactButtons();
+
+  updateInformation();
+
+  artifactVisible = true;
+
+  artifact.setAttribute("visible", true);
+
+  setStatus("Buddha's feet platform selected");
 
 }
 
@@ -475,7 +642,8 @@ function resetArtifact(showStatus = true) {
   Reset scale.
   */
 
-  currentScale = defaultTransform.scale;
+  currentScale =
+    artifactScales[selectedArtifact];
 
   setArtifactScale();
 
@@ -737,6 +905,24 @@ buddhaButton.addEventListener(
 casketButton.addEventListener(
   "click",
   selectCasket
+);
+
+
+anuradhapuraButton.addEventListener(
+  "click",
+  selectAnuradhapura
+);
+
+
+maskButton.addEventListener(
+  "click",
+  selectMask
+);
+
+
+platformButton.addEventListener(
+  "click",
+  selectPlatform
 );
 
 
