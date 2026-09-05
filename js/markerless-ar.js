@@ -585,6 +585,9 @@ async function placeArtifact() {
     placingModel =
         true;
 
+    const placementMatrix =
+        reticle.matrix.clone();
+
 
     try {
 
@@ -605,8 +608,27 @@ async function placeArtifact() {
         }
 
 
-        model.position.setFromMatrixPosition(
-            reticle.matrixWorld
+        const surfacePosition =
+            new THREE.Vector3();
+
+        const surfaceRotation =
+            new THREE.Quaternion();
+
+        const surfaceScale =
+            new THREE.Vector3();
+
+        placementMatrix.decompose(
+            surfacePosition,
+            surfaceRotation,
+            surfaceScale
+        );
+
+        model.position.copy(
+            surfacePosition
+        );
+
+        model.quaternion.copy(
+            surfaceRotation
         );
 
 
