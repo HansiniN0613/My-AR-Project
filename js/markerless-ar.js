@@ -933,40 +933,70 @@ async function startAR() {
         }
 
 
-        const session =
-            await navigator.xr
-                .requestSession(
+        const sessionOptions = {
 
-                    "immersive-ar",
+            requiredFeatures: [
 
-                    {
+                "hit-test"
 
-                        requiredFeatures: [
-
-                            "hit-test"
-
-                        ],
+            ],
 
 
-                        optionalFeatures: [
+            optionalFeatures: [
 
-                            "dom-overlay",
+                "dom-overlay",
 
-                            "local-floor"
+                "local-floor"
 
-                        ],
+            ],
 
 
-                        domOverlay: {
+            domOverlay: {
 
-                            root:
-                                hud
+                root:
+                    hud
 
-                        }
+            }
 
-                    }
+        };
 
-                );
+
+        let session;
+
+
+        try {
+
+            session =
+                await navigator.xr
+                    .requestSession(
+                        "immersive-ar",
+                        sessionOptions
+                    );
+
+        }
+
+        catch (error) {
+
+            if (
+                error.name !== "NotSupportedError"
+            ) {
+
+                throw error;
+
+            }
+
+
+            setStatus(
+                "This device supports AR camera mode but not surface detection. Install or update Google Play Services for AR, then try again."
+            );
+
+
+            startButton.disabled =
+                false;
+
+            return;
+
+        }
 
 
         session.addEventListener(
@@ -1014,11 +1044,20 @@ async function startAR() {
         );
 
 
+        const errorName =
+            error.name ||
+            "UnknownError";
+
+        const message =
+            errorName === "SecurityError"
+                ? "Camera permission was denied. Allow camera access for Chrome and reload the page."
+                : errorName === "NotSupportedError"
+                    ? "AR surface detection is unavailable. Install or update Google Play Services for AR and use Chrome on a compatible Android phone."
+                    : `Unable to start AR: ${errorName}. Check camera permission and AR support.`;
+
+
         setStatus(
-            `Unable to start AR: ${
-                error.name ||
-                "browser rejected the AR session"
-            }. Check HTTPS, camera permission, and AR support.`
+            message
         );
 
 
