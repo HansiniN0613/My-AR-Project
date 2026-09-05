@@ -159,6 +159,66 @@ function setStatus(message) {
 }
 
 
+function centerLoadedModel() {
+
+  const model =
+    artifact.object3D.children[0];
+
+  if (!model) {
+
+    return;
+
+  }
+
+
+  const bounds =
+    new THREE.Box3();
+
+  model.traverse(
+    (node) => {
+
+      if (!node.isMesh) {
+
+        return;
+
+      }
+
+
+      node.geometry.computeBoundingBox();
+
+      bounds.union(
+        node.geometry.boundingBox.clone()
+          .applyMatrix4(node.matrix)
+      );
+
+    }
+  );
+
+
+  if (bounds.isEmpty()) {
+
+    return;
+
+  }
+
+  const center =
+    bounds.getCenter(
+      new THREE.Vector3()
+    );
+
+
+  model.position.x -=
+    center.x;
+
+  model.position.y -=
+    bounds.min.y;
+
+  model.position.z -=
+    center.z;
+
+}
+
+
 /* =======================================================
    UPDATE BUTTON STATES
    ======================================================= */
@@ -207,7 +267,7 @@ function selectBuddha() {
 
   artifact.setAttribute(
     "gltf-model",
-    "#buddha-model"
+    "models/head_of_buddha_statue.glb"
   );
 
 
@@ -249,7 +309,7 @@ function selectCasket() {
 
   artifact.setAttribute(
     "gltf-model",
-    "#casket-model"
+    "models/coral_relic_casket.glb"
   );
 
 
@@ -620,6 +680,16 @@ target.addEventListener(
 artifact.addEventListener(
   "model-loaded",
   () => {
+
+    requestAnimationFrame(
+      () => {
+
+        requestAnimationFrame(
+          centerLoadedModel
+        );
+
+      }
+    );
 
     console.log(
       "3D artifact loaded successfully."
