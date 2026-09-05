@@ -1007,6 +1007,15 @@ async function startAR() {
 }
 
 
+startButton.addEventListener(
+
+    "click",
+
+    startAR
+
+);
+
+
 /* =========================================================
    COMPLEX INTERACTION
 ========================================================= */
