@@ -1,447 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+  <title>Heritage AR - Marker AR</title>
 
-    <meta
-        name="description"
-        content="Marker-based augmented reality experience for exploring a cultural heritage artifact."
-    >
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 
-    <title>Marker AR | Heritage AR Guide</title>
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-
-    <script
-        src="https://aframe.io/releases/1.5.0/aframe.min.js">
-    </script>
-
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js">
-    </script>
-
-
-    <style>
-
-        * {
-
-            box-sizing: border-box;
-
-        }
-
-
-        body {
-
-            margin: 0;
-
-            width: 100vw;
-            height: 100vh;
-
-            overflow: hidden;
-
-            font-family:
-                Arial,
-                sans-serif;
-
-        }
-
-
-        a-scene {
-
-            position: fixed;
-
-            inset: 0;
-
-            width: 100vw;
-            height: 100vh;
-
-            z-index: 0;
-
-        }
-
-
-        #mindar-video,
-        #mindar-canvas,
-        a-scene video,
-        a-scene canvas,
-        body > video {
-
-            position: fixed !important;
-
-            inset: 0 !important;
-
-            width: 100vw !important;
-            height: 100vh !important;
-
-        }
-
-
-        #mindar-video {
-
-            object-fit: cover;
-
-        }
-
-
-        #ui {
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 10;
-
-            pointer-events: none;
-
-        }
-
-
-        .top-panel {
-
-            position: absolute;
-
-            top:
-                max(
-                    15px,
-                    env(safe-area-inset-top)
-                );
-
-            left: 15px;
-
-            right: 15px;
-
-            padding: 15px;
-
-            color: white;
-
-            background:
-                rgba(
-                    25,
-                    18,
-                    12,
-                    0.82
-                );
-
-            border-radius: 12px;
-
-            pointer-events: auto;
-
-        }
-
-
-        #status {
-
-            margin: 0;
-
-            line-height: 1.5;
-
-        }
-
-
-        .bottom-panel {
-
-            position: absolute;
-
-            left: 15px;
-
-            right: 15px;
-
-            bottom:
-                max(
-                    15px,
-                    env(safe-area-inset-bottom)
-                );
-
-            display: grid;
-
-            gap: 10px;
-
-            pointer-events: auto;
-
-        }
-
-
-        button,
-        a {
-
-            min-height: 48px;
-
-            padding: 12px;
-
-            border: none;
-
-            border-radius: 10px;
-
-            background:
-                rgba(
-                    40,
-                    28,
-                    18,
-                    0.9
-                );
-
-            color: white;
-
-            font-size: 16px;
-
-            text-align: center;
-
-            text-decoration: none;
-
-            cursor: pointer;
-
-        }
-
-
-        #info-panel {
-
-            display: none;
-
-            position: absolute;
-
-            left: 15px;
-
-            right: 15px;
-
-            bottom: 145px;
-
-            padding: 18px;
-
-            color: white;
-
-            background:
-                rgba(
-                    25,
-                    18,
-                    12,
-                    0.92
-                );
-
-            border-radius: 12px;
-
-            pointer-events: auto;
-
-        }
-
-
-        #info-panel.visible {
-
-            display: block;
-
-        }
-
-
-        #info-panel h2 {
-
-            margin-top: 0;
-
-        }
-
-
-        #info-panel p {
-
-            line-height: 1.5;
-
-        }
-
-    </style>
-
+  <!-- MindAR -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 </head>
-
 
 <body>
 
+  <!-- =========================================================
+       AR SCENE
+       ========================================================= -->
 
-<div id="ui">
-
-    <div class="top-panel">
-
-        <p id="status">
-            Point your camera at the Moonstone marker.
-        </p>
-
-    </div>
-
-
-    <div
-        id="info-panel"
-        aria-live="polite"
-    >
-
-        <h2>Artifact Information</h2>
-
-        <p>
-            <strong>Artifact:</strong>
-            Head of Buddha Statue
-        </p>
-
-        <p>
-            This interactive 3D model demonstrates how
-            cultural heritage artifacts can be visualized
-            and explored through browser-based
-            Augmented Reality.
-        </p>
-
-        <button
-            id="close-info"
-            type="button"
-        >
-            Close
-        </button>
-
-    </div>
-
-
-    <div class="bottom-panel">
-
-        <button
-            id="info-button"
-            type="button"
-        >
-            ℹ View Artifact Information
-        </button>
-
-
-        <a href="index.html">
-            ← Back to Home
-        </a>
-
-    </div>
-
-</div>
-
-
-<a-scene
-
+  <a-scene
     mindar-image="
-        imageTargetSrc: assets/marker.mind;
-        autoStart: true;
-        uiScanning: true;
-        uiLoading: true;
+      imageTargetSrc: assets/marker.mind;
+      autoStart: true;
+      uiScanning: true;
+      uiLoading: true;
     "
 
     color-space="sRGB"
 
     renderer="
-        colorManagement: true;
-        physicallyCorrectLights: true;
+      colorManagement: true;
+      physicallyCorrectLights;
     "
 
     vr-mode-ui="enabled: false"
 
     device-orientation-permission-ui="enabled: false"
+  >
 
-
-    embedded
-
->
-
+    <!-- =======================================================
+         3D MODELS
+         ======================================================= -->
 
     <a-assets>
 
-        <a-asset-item
+      <!-- Buddha -->
+      <a-asset-item
+        id="buddha-model"
+        src="models/head_of_buddha_statue.glb">
+      </a-asset-item>
 
-            id="statue"
-
-            src="models/head_of_buddha_statue.glb"
-
-        >
-        </a-asset-item>
+      <!-- Casket -->
+      <a-asset-item
+        id="casket-model"
+        src="models/coral_relic_casket.glb">
+      </a-asset-item>
 
     </a-assets>
 
 
-    <!-- Lighting -->
+    <!-- =======================================================
+         LIGHTING
+         ======================================================= -->
 
-    <a-entity
+    <a-light
+      type="ambient"
+      intensity="1.5">
+    </a-light>
 
-        light="
-            type: ambient;
-            intensity: 1.2;
-        "
-
-    >
-    </a-entity>
-
-
-    <a-entity
-
-        light="
-            type: directional;
-            intensity: 1.5;
-        "
-
-        position="1 2 2"
-
-    >
-    </a-entity>
+    <a-light
+      type="directional"
+      intensity="2"
+      position="2 4 3">
+    </a-light>
 
 
-    <!-- Camera -->
+    <!-- =======================================================
+         CAMERA
+         ======================================================= -->
 
     <a-camera
-
-        position="0 0 0"
-
-        look-controls="enabled: false"
-
-    >
+      position="0 0 0"
+      look-controls="enabled: false">
     </a-camera>
 
 
-    <!-- AR Target -->
+    <!-- =======================================================
+         MARKER TARGET
+         ======================================================= -->
 
     <a-entity
-
-        id="target"
-
-        mindar-image-target="
-            targetIndex: 0
-        "
-
+      id="target"
+      mindar-image-target="targetIndex: 0"
     >
 
+      <!--
+        This is the single artifact entity.
 
-        <a-entity
+        JavaScript will change its model,
+        rotation, scale and visibility.
+      -->
 
-            id="artifact"
-
-            gltf-model="#statue"
-
-            position="-74.5286 0.1599 13.7884"
-
-            rotation="0 0 0"
-
-            scale="5 5 5"
-
-            animation="
-                property: rotation;
-                to: 0 360 0;
-                loop: true;
-                dur: 10000;
-                easing: linear;
-            "
-
-        >
-        </a-entity>
-
+      <a-entity
+        id="artifact"
+        position="0 0 0"
+        rotation="0 0 0"
+        scale="0.5 0.5 0.5"
+        gltf-model="#buddha-model"
+        animation="
+          property: rotation;
+          to: 0 360 0;
+          loop: true;
+          dur: 10000;
+          easing: linear;
+          startEvents: start-rotation;
+          pauseEvents: stop-rotation;
+        "
+      >
+      </a-entity>
 
     </a-entity>
 
+  </a-scene>
 
-</a-scene>
+
+  <!-- =========================================================
+       TOP BAR
+       ========================================================= -->
+
+  <div class="ar-top-bar">
+
+    <button
+      id="back-button"
+      class="ar-icon-button"
+      aria-label="Go back">
+      ←
+    </button>
+
+    <div class="ar-title">
+      Heritage AR
+    </div>
+
+    <button
+      id="info-button"
+      class="ar-icon-button"
+      aria-label="Information">
+      ℹ
+    </button>
+
+  </div>
 
 
-<script src="js/marker-ar.js"></script>
+  <!-- =========================================================
+       STATUS
+       ========================================================= -->
 
+  <div
+    id="status"
+    class="ar-status">
+    Scan the heritage marker
+  </div>
+
+
+  <!-- =========================================================
+       CONTROL PANEL
+       ========================================================= -->
+
+  <div
+    id="control-panel"
+    class="ar-control-panel">
+
+    <!-- Artifact selection -->
+
+    <div class="control-section">
+
+      <div class="control-title">
+        Select Artifact
+      </div>
+
+      <div class="artifact-buttons">
+
+        <button
+          id="buddha-button"
+          class="artifact-button active">
+
+          🗿 Buddha
+
+        </button>
+
+        <button
+          id="casket-button"
+          class="artifact-button">
+
+          🏺 Casket
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Transformation controls -->
+
+    <div class="control-section">
+
+      <div class="control-title">
+        Transform
+      </div>
+
+      <div class="transform-buttons">
+
+        <button
+          id="rotate-left"
+          class="control-button">
+
+          ↶
+
+        </button>
+
+        <button
+          id="rotate-right"
+          class="control-button">
+
+          ↷
+
+        </button>
+
+        <button
+          id="scale-down"
+          class="control-button">
+
+          −
+
+        </button>
+
+        <button
+          id="scale-up"
+          class="control-button">
+
+          +
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Action buttons -->
+
+    <div class="control-section">
+
+      <div class="control-title">
+        Actions
+      </div>
+
+      <div class="action-buttons">
+
+        <button
+          id="reset-object"
+          class="action-button">
+
+          ↺ Reset
+
+        </button>
+
+        <button
+          id="remove-object"
+          class="action-button danger">
+
+          🗑 Remove
+
+        </button>
+
+        <button
+          id="show-object"
+          class="action-button success"
+          style="display: none;">
+
+          ＋ Add Artifact
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       INFORMATION PANEL
+       ========================================================= -->
+
+  <div
+    id="info-panel"
+    class="info-panel">
+
+    <div class="info-content">
+
+      <button
+        id="close-info"
+        class="close-info">
+
+        ×
+
+      </button>
+
+      <h2 id="info-title">
+        Heritage Artifact
+      </h2>
+
+      <p id="info-description">
+        Select an artifact to learn more about it.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script src="js/marker-ar.js"></script>
 
 </body>
-
 </html>

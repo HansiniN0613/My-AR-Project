@@ -376,3 +376,407 @@ h1 {
     }
 
 }
+
+/* =========================================================
+   MARKER AR INTERFACE
+   ========================================================= */
+
+.ar-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 15px;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  color: white;
+
+  z-index: 20;
+}
+
+
+.ar-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+.ar-icon-button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  color: white;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.ar-icon-button:active {
+  transform: scale(0.92);
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.ar-status {
+  position: fixed;
+
+  top: 72px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  max-width: 90%;
+
+  padding: 10px 18px;
+
+  border-radius: 20px;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  color: white;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  z-index: 20;
+}
+
+
+/* =========================================================
+   CONTROL PANEL
+   ========================================================= */
+
+.ar-control-panel {
+  position: fixed;
+
+  left: 50%;
+  bottom: 15px;
+
+  transform: translateX(-50%);
+
+  width: calc(100% - 30px);
+
+  max-width: 500px;
+
+  padding: 15px;
+
+  background: rgba(20, 20, 20, 0.88);
+
+  border-radius: 20px;
+
+  color: white;
+
+  z-index: 20;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CONTROL SECTIONS
+   ========================================================= */
+
+.control-section {
+  margin-bottom: 12px;
+}
+
+
+.control-section:last-child {
+  margin-bottom: 0;
+}
+
+
+.control-title {
+  font-size: 13px;
+
+  opacity: 0.75;
+
+  margin-bottom: 7px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   ARTIFACT BUTTONS
+   ========================================================= */
+
+.artifact-buttons {
+  display: flex;
+
+  gap: 8px;
+}
+
+
+.artifact-button {
+  flex: 1;
+
+  min-height: 42px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+
+.artifact-button.active {
+  background: #ffffff;
+
+  color: #222;
+
+  font-weight: 600;
+}
+
+
+.artifact-button:active {
+  transform: scale(0.96);
+}
+
+
+/* =========================================================
+   TRANSFORMATION BUTTONS
+   ========================================================= */
+
+.transform-buttons {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 8px;
+}
+
+
+.control-button {
+  height: 44px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+
+
+.control-button:active {
+  transform: scale(0.94);
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.action-buttons {
+  display: flex;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+}
+
+
+.action-button {
+  flex: 1;
+
+  min-width: 100px;
+
+  min-height: 40px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+
+.action-button:active {
+  transform: scale(0.96);
+}
+
+
+.action-button.danger {
+  background: rgba(190, 50, 50, 0.75);
+}
+
+
+.action-button.success {
+  background: rgba(50, 150, 80, 0.75);
+}
+
+
+/* =========================================================
+   INFORMATION PANEL
+   ========================================================= */
+
+.info-panel {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 50;
+}
+
+
+.info-panel.visible {
+  display: flex;
+}
+
+
+.info-content {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 450px;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  background: white;
+
+  color: #222;
+
+  box-sizing: border-box;
+}
+
+
+.info-content h2 {
+  margin-top: 0;
+
+  margin-right: 30px;
+}
+
+
+.info-content p {
+  line-height: 1.6;
+
+  color: #555;
+}
+
+
+.close-info {
+  position: absolute;
+
+  top: 10px;
+  right: 12px;
+
+  width: 35px;
+  height: 35px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #eee;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   MOBILE OPTIMIZATION
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .ar-control-panel {
+    bottom: 8px;
+
+    padding: 12px;
+
+    border-radius: 16px;
+  }
+
+
+  .ar-title {
+    font-size: 18px;
+  }
+
+
+  .ar-status {
+    top: 68px;
+
+    font-size: 13px;
+
+    padding: 8px 14px;
+  }
+
+
+  .artifact-button {
+    font-size: 13px;
+  }
+
+
+  .control-button {
+    height: 40px;
+
+    font-size: 21px;
+  }
+
+
+  .action-button {
+    min-height: 38px;
+
+    font-size: 12px;
+  }
+
+}
