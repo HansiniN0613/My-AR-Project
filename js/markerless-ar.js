@@ -937,7 +937,6 @@ async function startAR() {
 
             requiredFeatures: [],
 
-
             optionalFeatures: [
 
                 "hit-test",
@@ -947,7 +946,6 @@ async function startAR() {
                 "local-floor"
 
             ],
-
 
             domOverlay: {
 
@@ -984,7 +982,14 @@ async function startAR() {
             }
 
 
-            throw error;
+            session =
+                await navigator.xr
+                    .requestSession(
+                        "immersive-ar",
+                        {
+                            requiredFeatures: []
+                        }
+                    );
 
         }
 
