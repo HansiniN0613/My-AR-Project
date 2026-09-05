@@ -853,6 +853,13 @@ renderer.setAnimationLoop(
 
 async function startAR() {
 
+    startButton.disabled =
+        true;
+
+    setStatus(
+        "Checking AR support..."
+    );
+
     /*
         Security requirement.
     */
@@ -862,9 +869,12 @@ async function startAR() {
     ) {
 
         setStatus(
-            "AR requires HTTPS. Deploy the project using GitHub Pages before testing on your phone."
+            "AR requires HTTPS. Open this project from GitHub Pages or another HTTPS host; a phone cannot use the computer's HTTP address for WebXR."
         );
 
+
+        startButton.disabled =
+            false;
 
         return;
 
@@ -876,9 +886,12 @@ async function startAR() {
     ) {
 
         setStatus(
-            "WebXR is unavailable. Use a recent version of Google Chrome on a compatible Android device."
+            "WebXR is unavailable. Use Chrome on a compatible Android phone. iPhone Safari does not support this WebXR AR mode."
         );
 
+
+        startButton.disabled =
+            false;
 
         return;
 
@@ -899,9 +912,12 @@ async function startAR() {
         ) {
 
             setStatus(
-                "This device does not support immersive WebXR AR."
+                "This browser or device does not support immersive AR. Use HTTPS with Chrome on a compatible Android phone."
             );
 
+
+            startButton.disabled =
+                false;
 
             return;
 
@@ -999,8 +1015,15 @@ async function startAR() {
 
 
         setStatus(
-            "Unable to start AR. Check Chrome, HTTPS, camera permission, and AR support."
+            `Unable to start AR: ${
+                error.name ||
+                "browser rejected the AR session"
+            }. Check HTTPS, camera permission, and AR support.`
         );
+
+
+        startButton.disabled =
+            false;
 
     }
 

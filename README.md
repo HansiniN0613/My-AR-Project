@@ -57,3 +57,9 @@ Heritage AR Guide/
 ├── index.html
 ├── marker-ar.html
 └── markerless-ar.html
+
+## Testing Markerless AR
+
+Markerless AR uses WebXR and must be opened from an HTTPS URL. Use GitHub Pages or another HTTPS host; do not test it from a phone using `http://localhost` or the computer's LAN IP.
+
+Use Chrome on a compatible Android phone, allow camera permission, and tap **Start AR**. iPhone Safari does not support the immersive WebXR AR mode used by this project.
