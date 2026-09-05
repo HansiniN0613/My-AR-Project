@@ -677,7 +677,7 @@ function requestHitTestSource(
 
 
                 setStatus(
-                    "Unable to initialize surface detection."
+                    "AR camera started, but surface detection is unavailable on this device."
                 );
 
             }
@@ -935,14 +935,12 @@ async function startAR() {
 
         const sessionOptions = {
 
-            requiredFeatures: [
-
-                "hit-test"
-
-            ],
+            requiredFeatures: [],
 
 
             optionalFeatures: [
+
+                "hit-test",
 
                 "dom-overlay",
 
@@ -986,15 +984,7 @@ async function startAR() {
             }
 
 
-            setStatus(
-                "This device supports AR camera mode but not surface detection. Install or update Google Play Services for AR, then try again."
-            );
-
-
-            startButton.disabled =
-                false;
-
-            return;
+            throw error;
 
         }
 
@@ -1030,7 +1020,7 @@ async function startAR() {
 
 
         setStatus(
-            "Move your phone slowly to detect a flat surface."
+            "AR started. Move your phone slowly to detect a flat surface."
         );
 
     }
@@ -1052,7 +1042,7 @@ async function startAR() {
             errorName === "SecurityError"
                 ? "Camera permission was denied. Allow camera access for Chrome and reload the page."
                 : errorName === "NotSupportedError"
-                    ? "AR surface detection is unavailable. Install or update Google Play Services for AR and use Chrome on a compatible Android phone."
+                    ? "WebXR rejected the AR session. Confirm Chrome, ARCore, camera permission, and HTTPS on a compatible Android phone."
                     : `Unable to start AR: ${errorName}. Check camera permission and AR support.`;
 
 
